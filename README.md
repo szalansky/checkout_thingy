@@ -1,29 +1,25 @@
 # CheckoutThingy
 
-TODO: Write a gem description
+Checkout.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'checkout_thingy'
+    gem 'checkout_thingy', :git => 'git@github.com:szalansky/checkout_thingy.git'
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
+## Money
 
-    $ gem install checkout_thingy
+Using Float (especially Float#round!) to represent money is not the best idea. On branch **money** you can find **checkout_thingy** that uses **money** gem (which is go-to money library for Ruby).
 
-## Usage
+So write this in your Gemfile:
 
-TODO: Write usage instructions here
+    gem 'checkout_thingy', :git => 'git@github.com:szalansky/checkout_thingy.git', :branch => 'money'
 
-## Contributing
+And then:
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+	$ bundle
