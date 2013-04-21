@@ -78,12 +78,16 @@ describe Checkout do
     context 'no promotional rules' do
     
       let(:checkout) { Checkout.new([]) }
+      let(:another_checkout) { Checkout.new([]) }
       
       it 'returns total price equal to the sum of prices' do
         checkout.scan(lavender_heart)
         checkout.scan(cufflinks)
         checkout.scan(t_shirt)
+        another_checkout.scan(cufflinks)
+        another_checkout.scan(cufflinks)
         checkout.total.should eq( Money.new(7420) )
+        another_checkout.total.should eq( 90.00 ) # comparing Money and Float objects is allowed
       end
       
     end
