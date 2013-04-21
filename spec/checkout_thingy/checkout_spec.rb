@@ -4,7 +4,7 @@ describe Checkout do
 
   describe '#initialize' do
 
-    let(:checkout) { Checkout.new([]) }
+    let(:checkout) { Checkout.new }
     it { checkout.items.count.should eq(0) }
     it { checkout.total.should eq(0) }
     it { checkout.promotional_rules.count.should eq(0) }
@@ -13,7 +13,7 @@ describe Checkout do
 
   describe '#scan' do
 
-    let(:checkout) { Checkout.new([]) }
+    let(:checkout) { Checkout.new }
     let(:item) { Item.new('002', 'Item', 9.50) }
 
     it 'adds item' do
