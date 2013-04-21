@@ -1,3 +1,4 @@
+require 'money'
 require 'checkout_thingy/version'
 require 'checkout_thingy/checkout'
 require 'checkout_thingy/item'

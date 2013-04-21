@@ -5,6 +5,6 @@ class Item
   def initialize(code, name, price)
     @code = code
     @name = name
-    @price = price
+    @price = Money.new(price * 100) # Money#initialize gets value in pennies, not in pounds
   end
 end

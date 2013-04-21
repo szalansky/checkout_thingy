@@ -18,11 +18,12 @@ class Checkout
     @promotional_rules.each do |rule|
       current_total -= rule.apply_discount(items, current_total)
     end
-    current_total.round(2)
+    current_total#.round(2)
   end
 
   private
     def raw_total
-      return items.sum { |item| item.price } 
+      return items.sum { |item| item.price } if items.count > 0
+      Money.new(0) 
     end
 end

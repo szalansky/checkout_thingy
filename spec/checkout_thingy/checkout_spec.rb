@@ -6,7 +6,7 @@ describe Checkout do
 
     let(:checkout) { Checkout.new([]) }
     it { checkout.items.count.should eq(0) }
-    it { checkout.total.should eq(0) }
+    it { checkout.total.should eq( Money.new(0) ) }
   
   end
 
@@ -32,14 +32,14 @@ describe Checkout do
 
       let(:ten_percent_discount) do
         PromotionalRule.new do |items, current_total|
-          current_total > 60.00 ? 0.1 * current_total : 0
+          current_total > Money.new(6000) ? Money.new( (0.1 * current_total.cents).floor ) : Money.new(0)
         end
       end
 
       let(:lavender_hearts_discount) do
         PromotionalRule.new do |items, current_total|
           lavender_hearts = items.count { |item| item.code.eql? '001' }
-          lavender_hearts > 1 ? lavender_hearts * 0.75 : 0
+          lavender_hearts > 1 ? Money.new(lavender_hearts * 75) : Money.new(0)
         end
       end
 
@@ -57,20 +57,20 @@ describe Checkout do
         checkout.scan(lavender_heart)
         checkout.scan(t_shirt)
         checkout.scan(cufflinks)
-        checkout.total.should eq(66.78)
+        checkout.total.should eq( Money.new(6678) )
       end
 
       it 'works for case #2' do
         2.times { checkout.scan(lavender_heart) }
         checkout.scan(t_shirt)
-        checkout.total.should eq(36.95)
+        checkout.total.should eq( Money.new(3695) )
       end
 
       it 'works for case #3' do
         2.times { checkout.scan(lavender_heart) }
         checkout.scan(t_shirt)
         checkout.scan(cufflinks)
-        checkout.total.should eq(73.76)
+        checkout.total.should eq( Money.new(7376) )
       end
       
     end
@@ -83,7 +83,7 @@ describe Checkout do
         checkout.scan(lavender_heart)
         checkout.scan(cufflinks)
         checkout.scan(t_shirt)
-        checkout.total.should eq(74.2)
+        checkout.total.should eq( Money.new(7420) )
       end
       
     end
