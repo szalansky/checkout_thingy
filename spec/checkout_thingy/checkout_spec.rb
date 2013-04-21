@@ -7,6 +7,7 @@ describe Checkout do
     let(:checkout) { Checkout.new([]) }
     it { checkout.items.count.should eq(0) }
     it { checkout.total.should eq(0) }
+    it { checkout.promotional_rules.count.should eq(0) }
   
   end
 
@@ -50,8 +51,13 @@ describe Checkout do
       # Apply discount for lavenders first 
       #   (raw_total - 2 * 0.75) * 0.9 = 73.755 ~ 73.76
       # Apply discount for total price first
-      #   raw_total * 0.9 - 2 * 0.75 = 73.605 
+      #   raw_total * 0.9 - 2 * 0.75 = 73.605 ~ 73.61
       let(:checkout) { Checkout.new([lavender_hearts_discount, ten_percent_discount]) }
+      let(:another_checkout) { Checkout.new([lavender_hearts_discount, ten_percent_discount]) }
+
+      it 'has two promotional rules' do
+        checkout.promotional_rules.count.should eq(2)
+      end
 
       it 'works for case #1' do
         checkout.scan(lavender_heart)
@@ -72,13 +78,21 @@ describe Checkout do
         checkout.scan(cufflinks)
         checkout.total.should eq(73.76)
       end
+
+      it 'returns different discount for reversed order of promotional rules' do
+        checkout.promotional_rules.reverse!
+        2.times { checkout.scan(lavender_heart) }
+        checkout.scan(t_shirt)
+        checkout.scan(cufflinks)
+        checkout.total.should eq(73.61)
+      end
       
     end
 
     context 'no promotional rules' do
     
-      let(:checkout) { Checkout.new([]) }
-      let(:another_checkout) { Checkout.new([]) }
+      let(:checkout) { Checkout.new }
+      let(:another_checkout) { Checkout.new }
       
       it 'returns total price equal to the sum of prices' do
         checkout.scan(lavender_heart)
@@ -91,5 +105,7 @@ describe Checkout do
       end
       
     end
+
   end
+
 end

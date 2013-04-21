@@ -2,9 +2,9 @@ require 'active_support/core_ext'
 
 class Checkout
 
-  attr_accessor :items
+  attr_accessor :items, :promotional_rules
 
-  def initialize(promotional_rules)
+  def initialize(promotional_rules=[])
     @promotional_rules = promotional_rules
     @items = []
   end
